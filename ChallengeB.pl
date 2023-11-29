@@ -64,10 +64,12 @@ while (my $line = <$File>) {
 			my $CapfirstAA = uc($firstAA);
 			
 			# Determine 3 most common AA characters and assign each a variable
-			
+			# NOT WORKING
+			my $aaC = "N";
+			my $countC = () = $seq =~ tr/$aaC//;
 			
 			# Prints values for sequence
-			print "$length, $CapfirstAA\n";
+			print "$length, $CapfirstAA, $countC\n";
 			
 			
 			$seq = "";
