@@ -15,7 +15,7 @@ use warnings;
 #	Column 4: 2nd Common AA
 #	Column 5: 3rd Common AA
 #
-#General approach:
+# General approach:
 #	1. Open the file for reading and loop through it line by line
 #	2. Print the column header lines for the table
 # 	3. Store the header and sequence for each fasta entry
