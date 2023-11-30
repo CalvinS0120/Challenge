@@ -63,14 +63,87 @@ while (my $line = <$File>) {
 				# Capitalizes the AA for clarity
 			my $CapfirstAA = uc($firstAA);
 			
-			# Determine 3 most common AA characters and assign each a variable
-			# NOT WORKING
-			my $aaC = "N";
-			my $countC = () = $seq =~ tr/$aaC//;
+			# Determine 3 most common AA characters and assign each a variable			
+			# Capitalizes the sequence because it is cap-sensitive
+			$seq = uc($seq);
 			
+			# Disgusting method of counting frequency of each AA
+			my $aaA = "A";
+			my $countA = () = $seq =~ /$aaA/g;
+			my $aaC = "C";
+			my $countC = () = $seq =~ /$aaC/g;
+			my $aaD = "D";
+			my $countD = () = $seq =~ /$aaD/g;
+			my $aaE = "E";
+			my $countE = () = $seq =~ /$aaE/g;
+			my $aaF = "F";
+			my $countF = () = $seq =~ /$aaF/g;
+			my $aaG = "G";
+			my $countG = () = $seq =~ /$aaG/g;
+			my $aaH = "H";
+			my $countH = () = $seq =~ /$aaH/g;
+			my $aaI = "I";
+			my $countI = () = $seq =~ /$aaI/g;
+			my $aaK = "K";
+			my $countK = () = $seq =~ /$aaK/g;
+			my $aaL = "L";
+			my $countL = () = $seq =~ /$aaL/g;
+			my $aaM = "M";
+			my $countM = () = $seq =~ /$aaM/g;
+			my $aaN = "N";
+			my $countN = () = $seq =~ /$aaN/g;
+			my $aaP = "P";
+			my $countP = () = $seq =~ /$aaP/g;
+			my $aaQ = "Q";
+			my $countQ = () = $seq =~ /$aaQ/g;
+			my $aaR = "R";
+			my $countR = () = $seq =~ /$aaR/g;
+			my $aaS = "S";
+			my $countS = () = $seq =~ /$aaS/g;
+			my $aaT = "T";
+			my $countT = () = $seq =~ /$aaT/g;
+			my $aaW = "W";
+			my $countW = () = $seq =~ /$aaW/g;
+			my $aaY = "Y";
+			my $countY = () = $seq =~ /$aaY/g;
+			my $aaV = "V";
+			my $countV = () = $seq =~ /$aaV/g;
+						
+									
+			# Pushes AA frequency values into one array
+			my @aaList = ();
+			push (@aaList, $countA, $countC, $countD, $countE, $countF, $countG, $countH, 
+					$countI, $countK, $countL, $countM, $countN, $countP, $countQ, $countR,
+					$countS, $countT, $countW, $countY, $countV);					
+			# Sorts AA frequency values in descending order
+			my @sortedList = reverse sort(@aaList);
+			
+			
+			my @aaListA = ();
+			push (@aaListA, $aaA, $aaC, $aaD, $aaE, $aaF, $aaG, $aaH, $aaI, $aaK, $aaL, $aaM,
+					$aaN, $aaP, $aaQ, $aaR, $aaS, $aaT, $aaW, $aaY, $aaV);			
+			my @sortedListA = reverse sort(@aaListA);
+			
+			
+			my %aaKey = ($aaA => $countA, $aaC => $countC, $aaD => $countD, $aaE => $countE,
+					$aaF => $countF, $aaG => $countG, $aaH => $countH, $aaI => $countI, 
+					$aaK => $countK, $aaL => $countL, $aaM => $countM, $aaN => $countN, 
+				$aaP => $countP, $aaQ => $countQ, $aaR => $countR, $aaS => $countS, 
+					$aaT => $countT, $aaW => $countW, $aaY => $countY, $aaV => $countV);
+		
+			
+			
+			
+			my @values = values(%aaKey);
+			my @keys = keys (%aaKey);
+#			print "@keys[$countC]\n";			
+#			print "@keys\n";	
+
+#			print "@sortedListA\n";
+			print "@sortedList\n";		
+
 			# Prints values for sequence
-			print "$length, $CapfirstAA, $countC\n";
-			
+			print "$length, $CapfirstAA, $countA\n";
 			
 			$seq = "";
 		}
