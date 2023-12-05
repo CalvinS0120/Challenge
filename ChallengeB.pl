@@ -51,99 +51,43 @@ while (my $line = <$File>) {
 	if ($line =~ m/^>/) {
 		# Header line exists and sequence is stored
 		if ($seq ne "") {
+			
+			# Capitalizes the entire sequence so no lower cases are printed
+			$seq = uc($seq);
+			
 			# Counts protein sequence length
 			my $length = length $seq;
-				# IDK, keeps +1 than the correct number. I think it is counting the
-				# invisible character at the end?
-				# this fixes it though so whatever
 			$length -= 1;
 			
 			# Determine first AA character in each sequence and assign variable
 			my $firstAA = substr($seq, 0, 1);
-				# Capitalizes the AA for clarity
-			my $CapfirstAA = uc($firstAA);
 			
-			# Determine 3 most common AA characters and assign each a variable			
-			# Capitalizes the sequence because it is cap-sensitive
-			$seq = uc($seq);
+			# Determine the 3 most common AA characters and assign each a variable		
+			# Initializes hash
+			my %aaCount;
 			
-			# Disgusting method of counting frequency of each AA
-			my $aaA = "A";
-			my $countA = () = $seq =~ /$aaA/g;
-			my $aaC = "C";
-			my $countC = () = $seq =~ /$aaC/g;
-			my $aaD = "D";
-			my $countD = () = $seq =~ /$aaD/g;
-			my $aaE = "E";
-			my $countE = () = $seq =~ /$aaE/g;
-			my $aaF = "F";
-			my $countF = () = $seq =~ /$aaF/g;
-			my $aaG = "G";
-			my $countG = () = $seq =~ /$aaG/g;
-			my $aaH = "H";
-			my $countH = () = $seq =~ /$aaH/g;
-			my $aaI = "I";
-			my $countI = () = $seq =~ /$aaI/g;
-			my $aaK = "K";
-			my $countK = () = $seq =~ /$aaK/g;
-			my $aaL = "L";
-			my $countL = () = $seq =~ /$aaL/g;
-			my $aaM = "M";
-			my $countM = () = $seq =~ /$aaM/g;
-			my $aaN = "N";
-			my $countN = () = $seq =~ /$aaN/g;
-			my $aaP = "P";
-			my $countP = () = $seq =~ /$aaP/g;
-			my $aaQ = "Q";
-			my $countQ = () = $seq =~ /$aaQ/g;
-			my $aaR = "R";
-			my $countR = () = $seq =~ /$aaR/g;
-			my $aaS = "S";
-			my $countS = () = $seq =~ /$aaS/g;
-			my $aaT = "T";
-			my $countT = () = $seq =~ /$aaT/g;
-			my $aaW = "W";
-			my $countW = () = $seq =~ /$aaW/g;
-			my $aaY = "Y";
-			my $countY = () = $seq =~ /$aaY/g;
-			my $aaV = "V";
-			my $countV = () = $seq =~ /$aaV/g;
-						
+			# Splits sequences to differentiate each amino acid residue
+			my @aaChunked = split(//, "$seq");
+			
+			# Loops through sequence and counts instance of each unique Amino Acid
+			foreach my $AA (@aaChunked) {
+				$aaCount{$AA}++;
+			}
+			
+			# Initializes array
+			# Sorts sequence in descending numerical order
+			my @sorted_AA = sort { $aaCount{$b} <=> $aaCount{$a} } keys(%aaCount);
+			
+			# Initializes most common, second most common, and third most common to
+			# separate variables
+			# I know I could skip this part and simply plug in $sorted_aa[x] but I thought
+			# this would make it slightly more legible and easier to understand
+			my $firstCommonAA = $sorted_AA[0];
+			my $secondCommonAA = $sorted_AA[1];
+			my $thirdCommonAA = $sorted_AA[2];
 									
-			# Pushes AA frequency values into one array
-			my @aaList = ();
-			push (@aaList, $countA, $countC, $countD, $countE, $countF, $countG, $countH, 
-					$countI, $countK, $countL, $countM, $countN, $countP, $countQ, $countR,
-					$countS, $countT, $countW, $countY, $countV);					
-			# Sorts AA frequency values in descending order
-			my @sortedList = reverse sort(@aaList);
-			
-			
-			my @aaListA = ();
-			push (@aaListA, $aaA, $aaC, $aaD, $aaE, $aaF, $aaG, $aaH, $aaI, $aaK, $aaL, $aaM,
-					$aaN, $aaP, $aaQ, $aaR, $aaS, $aaT, $aaW, $aaY, $aaV);			
-			my @sortedListA = reverse sort(@aaListA);
-			
-			
-			my %aaKey = ($aaA => $countA, $aaC => $countC, $aaD => $countD, $aaE => $countE,
-					$aaF => $countF, $aaG => $countG, $aaH => $countH, $aaI => $countI, 
-					$aaK => $countK, $aaL => $countL, $aaM => $countM, $aaN => $countN, 
-				$aaP => $countP, $aaQ => $countQ, $aaR => $countR, $aaS => $countS, 
-					$aaT => $countT, $aaW => $countW, $aaY => $countY, $aaV => $countV);
-		
-			
-			
-			
-			my @values = values(%aaKey);
-			my @keys = keys (%aaKey);
-#			print "@keys[$countC]\n";			
-#			print "@keys\n";	
-
-#			print "@sortedListA\n";
-			print "@sortedList\n";		
-
-			# Prints values for sequence
-			print "$length, $CapfirstAA, $countA\n";
+			# Prints values for the sequence
+			print "$length, $firstAA, $firstCommonAA, $secondCommonAA, $thirdCommonAA\n";
 			
 			$seq = "";
 		}
@@ -155,16 +99,36 @@ while (my $line = <$File>) {
 }
 
 # Last sequence
+# Capitalize sequence again so no lower cases are printed
+$seq = uc($seq);
+
+# Counts protein sequence length
 my $length = length $seq;
 $length -= 1;
 
 # Determine first AA character of the last sequence and assign variable
 my $firstAA = substr($seq, 0, 1);
-	#Capitalizes the AA for clarity
-my $CapfirstAA = uc($firstAA);
 
 # Determine 3 most common AA characters for the last sequence and assign each a variable
+# Initializes hash
+my %aaCount;
+			
+# Splits sequences to differentiate each amino acid residue			
+my @aaChunked = split(//, "$seq");
 
+# Loops through sequence and counts instance of each unique Amino Acid			
+foreach my $AA (@aaChunked) {
+	$aaCount{$AA}++;
+}
+
+# Initializes array
+# Sorts sequence in descending numerical order			
+my @sorted_AA = sort { $aaCount{$b} <=> $aaCount{$a} } keys(%aaCount);
+
+# Initializes most common, second most common, and third most common to separate variables			
+my $firstCommonAA = $sorted_AA[0];
+my $secondCommonAA = $sorted_AA[1];
+my $thirdCommonAA = $sorted_AA[2];
 
 # Print the values for the last sequence
-print "$length, $CapfirstAA\n";
+print "$length, $firstAA, $firstCommonAA, $secondCommonAA, $thirdCommonAA\n";
