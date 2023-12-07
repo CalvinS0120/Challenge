@@ -59,7 +59,7 @@ while (my $line = <$File>) {
 			# Capitalizes the entire sequence so no lower cases are printed
 			$seq = uc($seq);
 			
-			# Counts protein sequence length
+			# Counts protein sequence length and assigns variable
 			my $length = length $seq;
 			
 			# Determine first AA character in each sequence and assign variable
@@ -109,7 +109,7 @@ while (my $line = <$File>) {
 # Capitalize sequence again so no lower cases are printed
 $seq = uc($seq);
 
-# Counts protein sequence length and assign variable
+# Counts protein sequence length and assigns variable
 my $length = length $seq;
 
 # Determine first AA character of the last sequence and assign variable
