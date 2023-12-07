@@ -57,7 +57,6 @@ while (my $line = <$File>) {
 			
 			# Counts protein sequence length
 			my $length = length $seq;
-			$length -= 1;
 			
 			# Determine first AA character in each sequence and assign variable
 			my $firstAA = substr($seq, 0, 1);
@@ -70,8 +69,12 @@ while (my $line = <$File>) {
 			my @aaChunked = split(//, "$seq");
 			
 			# Loops through sequence and counts instance of each unique Amino Acid
+			# Skips non-letter residues
 			foreach my $AA (@aaChunked) {
-				$aaCount{$AA}++;
+				if ($AA =~ /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/) {
+					$aaCount{$AA}++;
+				} else {
+					next}
 			}
 			
 			# Initializes array
@@ -104,7 +107,6 @@ $seq = uc($seq);
 
 # Counts protein sequence length
 my $length = length $seq;
-$length -= 1;
 
 # Determine first AA character of the last sequence and assign variable
 my $firstAA = substr($seq, 0, 1);
@@ -118,7 +120,10 @@ my @aaChunked = split(//, "$seq");
 
 # Loops through sequence and counts instance of each unique Amino Acid			
 foreach my $AA (@aaChunked) {
-	$aaCount{$AA}++;
+	if ($AA =~ /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/) {
+		$aaCount{$AA}++;
+	} else {
+		next}
 }
 
 # Initializes array
