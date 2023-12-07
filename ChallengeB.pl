@@ -14,6 +14,9 @@ use warnings;
 #	Column 3: 1st Common AA
 #	Column 4: 2nd Common AA
 #	Column 5: 3rd Common AA
+# Each sequence is printed in individual rows
+#	
+#	Header: Protein Length, Starting AA, 1st Common AA, 2nd Common AA, 3rd Common AA
 #
 # General approach:
 #	1. Open the file for reading and loop through it line by line
@@ -23,8 +26,9 @@ use warnings;
 #		i. Count protein sequence length
 #		ii. Determine first AA character in the sequence
 #		iii. Count how many instances of each unique AA character
-#		iV. Determine 1st, 2nd, and 3rd most common AA characters in each sequence
-#		v. Print the values for the sequence
+#		iv. Skip non-letter residues
+#		v. Determine 1st, 2nd, and 3rd most common AA characters in each sequence
+#		vi. Print the values for the sequence in its own row
 #	5. Clear the sequence variable and store the new header
 #	6. Repeat steps 4-5 until the end of the file
 #	7. After the entire file has been read, do the same thing for the last sequence and print
@@ -69,7 +73,7 @@ while (my $line = <$File>) {
 			my @aaChunked = split(//, "$seq");
 			
 			# Loops through sequence and counts instance of each unique Amino Acid
-			# Skips non-letter residues
+			# Skips non-letter residues, such as "/" or "-""
 			foreach my $AA (@aaChunked) {
 				if ($AA =~ /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/) {
 					$aaCount{$AA}++;
@@ -77,14 +81,13 @@ while (my $line = <$File>) {
 					next}
 			}
 			
-			# Initializes array
+			# Initializes array for numerically sorted AA list
 			# Sorts sequence in descending numerical order
 			my @sorted_AA = sort { $aaCount{$b} <=> $aaCount{$a} } keys(%aaCount);
 			
 			# Initializes most common, second most common, and third most common to
 			# separate variables
-			# I know I could skip this part and simply plug in $sorted_aa[x] but I thought
-			# this would make it slightly more legible and easier to understand
+			# Redundant code but added for clarity
 			my $firstCommonAA = $sorted_AA[0];
 			my $secondCommonAA = $sorted_AA[1];
 			my $thirdCommonAA = $sorted_AA[2];
@@ -102,23 +105,25 @@ while (my $line = <$File>) {
 }
 
 # Last sequence
+
 # Capitalize sequence again so no lower cases are printed
 $seq = uc($seq);
 
-# Counts protein sequence length
+# Counts protein sequence length and assign variable
 my $length = length $seq;
 
 # Determine first AA character of the last sequence and assign variable
 my $firstAA = substr($seq, 0, 1);
 
 # Determine 3 most common AA characters for the last sequence and assign each a variable
-# Initializes hash
+# Initializes hash, updated Perl creates new instances for every new encounter
 my %aaCount;
 			
 # Splits sequences to differentiate each amino acid residue			
 my @aaChunked = split(//, "$seq");
 
-# Loops through sequence and counts instance of each unique Amino Acid			
+# Loops through sequence and counts instance of each unique Amino Acid	
+# Skips non-letter residues, such as "/" or "-""		
 foreach my $AA (@aaChunked) {
 	if ($AA =~ /[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/) {
 		$aaCount{$AA}++;
@@ -126,14 +131,15 @@ foreach my $AA (@aaChunked) {
 		next}
 }
 
-# Initializes array
+# Initializes array for numerically sorted AA list
 # Sorts sequence in descending numerical order			
 my @sorted_AA = sort { $aaCount{$b} <=> $aaCount{$a} } keys(%aaCount);
 
-# Initializes most common, second most common, and third most common to separate variables			
+# Initializes most common, second most common, and third most common to separate variables
+# Redundant code but added for clarity			
 my $firstCommonAA = $sorted_AA[0];
 my $secondCommonAA = $sorted_AA[1];
 my $thirdCommonAA = $sorted_AA[2];
 
-# Print the values for the last sequence
+# Prints the values for the last sequence
 print "$length, $firstAA, $firstCommonAA, $secondCommonAA, $thirdCommonAA\n";
