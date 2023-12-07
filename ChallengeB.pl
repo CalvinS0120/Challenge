@@ -66,7 +66,7 @@ while (my $line = <$File>) {
 			my $firstAA = substr($seq, 0, 1);
 			
 			# Determine the 3 most common AA characters and assign each a variable		
-			# Initializes hash
+			# Initializes hash to store amino acid counts
 			my %aaCount;
 			
 			# Splits sequences to differentiate each amino acid residue
@@ -116,7 +116,7 @@ my $length = length $seq;
 my $firstAA = substr($seq, 0, 1);
 
 # Determine 3 most common AA characters for the last sequence and assign each a variable
-# Initializes hash, updated Perl creates new instances for every new encounter
+# Initializes hash to store amino acid counts
 my %aaCount;
 			
 # Splits sequences to differentiate each amino acid residue			
